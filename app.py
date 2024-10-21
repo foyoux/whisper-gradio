@@ -366,7 +366,7 @@ def main():
                 audio = gr.File(label="Audio/Video")
                 transcribe_btn = gr.Button("Transcribe")
             with gr.Column():
-                srt_file1 = gr.File(label="Transcription SRT File")
+                srt_file1 = gr.File(label="Transcription SRT File", interactive=False)
                 transcribe_text = gr.Text(
                     label="Transcription",
                     lines=10,
