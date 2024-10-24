@@ -1,9 +1,9 @@
 # whisper-gradio
 从 音频、视频 中生成字幕，并翻译
 
-[whisper](https://github.com/openai/whisper) 支持多种模型，代码中没有全部加载，防止显存不够用，可以根据自己的需求在代码中加载（在 `MODELS` 处注释或取消注释）。
+[whisper](https://github.com/openai/whisper) 支持多种模型，代码中没有全部加载，防止占用过多资源，可以根据自己的需求在代码中加载（在 `MODELS` 处注释或取消注释）。
 
-[pygtrans](https://github.com/foyoux/pygtrans) 用于字幕翻译，默认需要科学上网，如果没有全局梯子，可以在代码中自行设置代理。设置方法具体参考 `pygtrans` 项目。 
+[pygtrans](https://github.com/foyoux/pygtrans) 用于字幕翻译，默认需要科学上网，如果没有全局梯子，可以在代码中自行设置代理。设置方法具体参见 `pygtrans` 项目。 
 
 
 ## 效果展示
