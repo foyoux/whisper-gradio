@@ -1,3 +1,4 @@
 gradio
 pygtrans
 openai-whisper
+tqdm
