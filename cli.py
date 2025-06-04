@@ -40,9 +40,8 @@ def print_models():
 
 def print_sources():
     print("Available source languages:")
-    print("  - auto (auto-detect language)")
     for source in SOURCES:
-        print(f"  - {source} ({TO_LANGUAGE_CODE[source]})")
+        print(f"  - {TO_LANGUAGE_CODE[source]}({source})")
 
 
 def print_targets():
@@ -57,7 +56,7 @@ def parse_args(parser):
     parser.add_argument(
         "--target", nargs="?", const=None, default="zh-CN", help="Target language for the translated subtitles"
     )
-    parser.add_argument("--proxy", help="Proxy for translate srt")
+    parser.add_argument("--proxy", help="Proxy for translate subtitles")
     parser.add_argument("files", nargs="*", help="Audio/video file or folder")
     return parser.parse_args()
 
