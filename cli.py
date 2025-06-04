@@ -91,7 +91,7 @@ def process(model, file, source, target, at: Translate):
     texts = [i["text"] for i in results["segments"]]
     target_texts = at.translate(texts)
     for k, v in zip(results["segments"], target_texts):
-        k["text"] = v
+        k["text"] = v.translatedText
     target_srt = generate_srt(results)
     save_srt(file, target, target_srt)
 
