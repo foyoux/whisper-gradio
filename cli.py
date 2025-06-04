@@ -7,24 +7,12 @@ from pygtrans import Translate
 from tqdm import tqdm
 from whisper.tokenizer import TO_LANGUAGE_CODE
 
+# fmt: off
 MODELS = [
-    "tiny.en",
-    "tiny",
-    "base.en",
-    "base",
-    "small.en",
-    "small",
-    "medium.en",
-    "medium",
-    "large-v1",
-    "large-v2",
-    "large-v3",
-    "large",
-    "large-v3-turbo",
-    "turbo",
+    "tiny.en", "tiny", "base.en", "base", "small.en", "small", "medium.en", "medium", "large-v1", "large-v2", "large-v3", "large", "large-v3-turbo", "turbo"
 ]
 SOURCES = [i for i in TO_LANGUAGE_CODE]
-# fmt: off
+
 AUDIO_SUFFIXS = {
     ".mp4", ".mkv", ".avi", ".mov", ".flv", ".wmv", ".webm", ".3gp", ".mpeg", ".mpg", ".m4v",
     ".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a", ".wma",  # '.aiff', '.alac'
@@ -36,6 +24,12 @@ def print_models():
     print("Available models:")
     for model in MODELS:
         print(f"  - {model}")
+
+
+def print_tasks():
+    print("Available tasks:")
+    print("  - transcribe")
+    print("  - translate")
 
 
 def print_sources():
@@ -52,6 +46,7 @@ def print_targets():
 
 def parse_args(parser):
     parser.add_argument("--model", nargs="?", const=None, default="turbo", help="Model to use for whisper")
+    parser.add_argument("--task", nargs="?", const=None, default="transcribe", help="Task to use for whisper")
     parser.add_argument("--source", nargs="?", const=False, default=None, help="Source language of the audio")
     parser.add_argument(
         "--target", nargs="?", const=None, default="zh-CN", help="Target language for the translated subtitles"
@@ -83,8 +78,8 @@ def save_srt(file: Path, lang, srt):
     file.with_name(f"{file.stem}-{lang}.srt").write_text(srt, encoding="utf8")
 
 
-def process(model, file, source, target, at: Translate):
-    results = model.transcribe(str(file), language=source)
+def process(model, file, task, source, target, at: Translate):
+    results = model.transcribe(str(file), task=task, language=source)
     source_srt = generate_srt(results)
     save_srt(file, results["language"], source_srt)
     texts = [i["text"] for i in results["segments"]]
@@ -100,6 +95,9 @@ def main():
     args = parse_args(parser)
     if args.model is None:
         print_models()
+        return
+    if args.task is None:
+        print_tasks()
         return
     if args.source is False:
         print_sources()
@@ -127,7 +125,7 @@ def main():
     with tqdm(total=len(all_files), desc="转录字幕") as pbar:
         for i in all_files:
             pbar.set_postfix_str(i)
-            process(model, i, source=args.source, target=args.target, at=at)
+            process(model, i, task=args.task, source=args.source, target=args.target, at=at)
             pbar.update(1)
 
 
